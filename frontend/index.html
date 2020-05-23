@@ -67,11 +67,12 @@
 
             <div v-if="mostrarBotaoSolicitacao" class="row justify-content-between mb-4">
                 
-                <div class="col-12 col-md-auto">
+                <div v-if="token" class="col-12 col-md-auto">
                     <b-button size="md" variant="primary" class="btn-block shadow float-right" 
                     v-b-modal.modal-solicitacao>Abrir uma solicitação 
                     </b-button>
-                </div>   
+                </div> 
+                <div v-else class="col-12 col-md-auto"></div>  
                 
                 <div class="col-12 mt-3 mt-sm-0 col-sm-auto">
                     <div class="form-group justify-content-start">

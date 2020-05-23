@@ -45083,8 +45083,7 @@ var app = new Vue({
     //Define configuração de botão ajuda
     setarAjuda: function ($tag) {
       this.ajuda.recurso_id   = $tag[0];
-      this.ajuda.business_id  = $tag[1];
-      this.ajuda.titulo       = $tag[2];
+      this.ajuda.titulo       = $tag[1];
     }
   },
   mounted: function () {
