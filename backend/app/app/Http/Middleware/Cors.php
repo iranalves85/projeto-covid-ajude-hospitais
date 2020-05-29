@@ -40,7 +40,7 @@ class Cors
         }
 
         $headers = [
-            'Access-Control-Allow-Origin'      => $origin,
+            'Access-Control-Allow-Origin'      => '*',
             'Vary'                             => 'Origin',
             'Access-Control-Allow-Methods'     => 'HEAD, POST, GET, PUT, DELETE, OPTIONS',
             'Access-Control-Allow-Credentials' => 'true',
