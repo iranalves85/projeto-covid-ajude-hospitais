@@ -44915,12 +44915,20 @@ var app = new Vue({
     //enviar solicitação para cadastro
     enviarSolicitacao: function (modalEvent) {
       modalEvent.preventDefault();
-      axios.post(backend_url + '/request', {
-          headers: {
-            'Access-Control-Allow-Origin': frontend_url 
-          },
+      
+      $options = {
+        method: 'POST',
+        url: backend_url + '/request',  
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Access-Control-Allow-Origin': frontend_url 
+        },
+        data: {
           solicitacao: this.solicitacao
-        })
+        } 
+      };
+
+      axios($options)
         .then((response) => {
 
           //Fechar modal
@@ -44962,12 +44970,19 @@ var app = new Vue({
     //enviar ajuda para cadastro
     enviarAjuda: function (modalEvent) {
       modalEvent.preventDefault();
-      axios.post(backend_url + '/resource', {
-          headers: {
-            'Access-Control-Allow-Origin': frontend_url 
-          },
+      $options = {
+        method: 'POST',
+        url: backend_url + '/resource',  
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Access-Control-Allow-Origin': frontend_url 
+        },
+        data: {
           ajuda: this.ajuda
-        })
+        } 
+      };
+
+      axios($options)
         .then((response) => {
 
           //Fechar modal
@@ -45045,12 +45060,19 @@ var app = new Vue({
     //Envio de token para registrar sessão
     enviarToken: function (modalEvent) {
       modalEvent.preventDefault();
-      axios.post(backend_url + '/token', {
-          headers: {
-            'Access-Control-Allow-Origin': frontend_url 
-          },
+      $options = {
+        method: 'POST',
+        url: backend_url + '/token',  
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Access-Control-Allow-Origin': frontend_url 
+        },
+        data: {
           token: this.token
-        })
+        } 
+      };
+
+      axios($options)
         .then((response) => {
 
           //Fechar modal
