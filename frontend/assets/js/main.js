@@ -45005,6 +45005,7 @@ var app = new Vue({
               $title = 'Sua ajuda foi enviada!';
               $message = response.data.success.resource;
               $variant = 'success';
+              this.paged = 1;
               this.carregarSolicitacao();
             }
 
