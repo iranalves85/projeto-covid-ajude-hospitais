@@ -44779,6 +44779,8 @@
 //constantes
 const backend_url = 'https://api.projetocovid.makingpie.com.br';
 const frontend_url = 'https://projetocovid.makingpie.com.br';
+//const backend_url = 'http://localhost/desenvolvimento/projeto-social-covid19/backend/app/public';
+//const frontend_url = 'http://localhost/desenvolvimento/projeto-social-covid19/frontend';
 const api_servicodados_ibge = 'https://servicodados.ibge.gov.br/api/v1/localidades/municipios/{municipio}/distritos';
 const municipio = '3550308'; //São Paulo - SP
 
@@ -44920,8 +44922,8 @@ var app = new Vue({
         method: 'POST',
         url: backend_url + '/request',  
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Access-Control-Allow-Origin': frontend_url 
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': frontend_url
         },
         data: {
           solicitacao: this.solicitacao
@@ -44974,7 +44976,7 @@ var app = new Vue({
         method: 'POST',
         url: backend_url + '/resource',  
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': frontend_url 
         },
         data: {
@@ -45064,7 +45066,7 @@ var app = new Vue({
         method: 'POST',
         url: backend_url + '/token',  
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': frontend_url 
         },
         data: {
