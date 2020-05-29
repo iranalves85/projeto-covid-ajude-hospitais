@@ -44923,11 +44923,13 @@ var app = new Vue({
         url: backend_url + '/request',  
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': frontend_url
+          'Origin': frontend_url
         },
         data: {
           solicitacao: this.solicitacao
-        } 
+        },
+        withCredentials: true,
+        crossorigin: true,
       };
 
       axios($options)
@@ -44977,11 +44979,13 @@ var app = new Vue({
         url: backend_url + '/resource',  
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': frontend_url 
+          'Origin': frontend_url 
         },
         data: {
           ajuda: this.ajuda
-        } 
+        },
+        withCredentials: true,
+        crossorigin: true,
       };
 
       axios($options)
@@ -45067,11 +45071,13 @@ var app = new Vue({
         url: backend_url + '/token',  
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': frontend_url 
+          'Origin': frontend_url 
         },
         data: {
           token: this.token
-        } 
+        },
+        withCredentials: true,
+        crossorigin: true, 
       };
 
       axios($options)
