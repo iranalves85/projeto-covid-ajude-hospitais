@@ -44923,7 +44923,7 @@ var app = new Vue({
         url: backend_url + '/request',  
         headers: {
           'Content-Type': 'application/json',
-          'Origin': frontend_url
+          'Access-Control-Allow-Origin': frontend_url
         },
         data: {
           solicitacao: this.solicitacao
@@ -44976,10 +44976,10 @@ var app = new Vue({
       modalEvent.preventDefault();
       $options = {
         method: 'POST',
-        url: backend_url + '/resource',  
+        url: backend_url + '/resource',
         headers: {
           'Content-Type': 'application/json',
-          'Origin': frontend_url 
+          'Access-Control-Allow-Origin': frontend_url 
         },
         data: {
           ajuda: this.ajuda
@@ -45071,7 +45071,7 @@ var app = new Vue({
         url: backend_url + '/token',  
         headers: {
           'Content-Type': 'application/json',
-          'Origin': frontend_url 
+          'Access-Control-Allow-Origin': frontend_url 
         },
         data: {
           token: this.token
