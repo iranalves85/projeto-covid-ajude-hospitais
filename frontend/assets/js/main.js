@@ -44778,6 +44778,7 @@
 
 //constantes
 const backend_url = 'https://api.projetocovid.makingpie.com.br';
+const frontend_url = 'https://projetocovid.makingpie.com.br';
 const api_servicodados_ibge = 'https://servicodados.ibge.gov.br/api/v1/localidades/municipios/{municipio}/distritos';
 const municipio = '3550308'; //São Paulo - SP
 
@@ -44915,6 +44916,9 @@ var app = new Vue({
     enviarSolicitacao: function (modalEvent) {
       modalEvent.preventDefault();
       axios.post(backend_url + '/request', {
+          headers: {
+            'Access-Control-Allow-Origin': frontend_url 
+          },
           solicitacao: this.solicitacao
         })
         .then((response) => {
@@ -44959,6 +44963,9 @@ var app = new Vue({
     enviarAjuda: function (modalEvent) {
       modalEvent.preventDefault();
       axios.post(backend_url + '/resource', {
+          headers: {
+            'Access-Control-Allow-Origin': frontend_url 
+          },
           ajuda: this.ajuda
         })
         .then((response) => {
@@ -45039,6 +45046,9 @@ var app = new Vue({
     enviarToken: function (modalEvent) {
       modalEvent.preventDefault();
       axios.post(backend_url + '/token', {
+          headers: {
+            'Access-Control-Allow-Origin': frontend_url 
+          },
           token: this.token
         })
         .then((response) => {
