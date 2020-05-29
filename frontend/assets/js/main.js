@@ -44928,8 +44928,8 @@ var app = new Vue({
         data: {
           solicitacao: this.solicitacao
         },
-        //withCredentials: true,
-        //crossorigin: true,
+        withCredentials: true,
+        crossorigin: true,
       };
 
       axios($options)
@@ -44984,8 +44984,8 @@ var app = new Vue({
         data: {
           ajuda: this.ajuda
         },
-        //withCredentials: true,
-        //crossorigin: true,
+        withCredentials: true,
+        crossorigin: true,
       };
 
       axios($options)
@@ -45076,8 +45076,8 @@ var app = new Vue({
         data: {
           token: this.token
         },
-        //withCredentials: true,
-        //crossorigin: true, 
+        withCredentials: true,
+        crossorigin: true, 
       };
 
       axios($options)
