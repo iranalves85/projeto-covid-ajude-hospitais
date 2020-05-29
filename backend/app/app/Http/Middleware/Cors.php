@@ -45,7 +45,7 @@ class Cors
             'Access-Control-Allow-Methods'     => 'HEAD, POST, GET, PUT, DELETE, OPTIONS',
             'Access-Control-Allow-Credentials' => 'true',
             'Access-Control-Max-Age'           => '86400',
-            'Access-Control-Allow-Headers'     => 'Origin, Content-Type, Set-Cookie, Authorization, X-Requested-With'
+            'Access-Control-Allow-Headers'     => 'Origin, Content-Type, Set-Cookie, Authorization, X-Requested-With, Access-Control-Allow-Headers, Accept, Access-Control-Request-Method, Access-Control-Request-Headers'
         ];
 
         if ($request->isMethod('OPTIONS'))
