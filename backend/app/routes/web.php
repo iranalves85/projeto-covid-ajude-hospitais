@@ -18,7 +18,7 @@ Route::get('/', function () {
 });
 
 /** Registrando url para requisições de solictações */
-$router->group(['prefix' => 'request'], function () use ($router) {
+Route::group(['prefix' => 'request'], function () use ($router) {
     $router->get('/{bairro?}/{page?}', 'RequestController@get');
     $router->post('/', 'RequestController@post');
     $router->post('/help', 'RequestController@registerHelp');
@@ -26,24 +26,24 @@ $router->group(['prefix' => 'request'], function () use ($router) {
 });
 
 /** Registrando url para requisições de recursos */
-$router->group(['prefix' => 'resource'], function () use ($router) {
+Route::group(['prefix' => 'resource'], function () use ($router) {
     $router->post('/', 'ResourcesController@post');
 });
 
 /** Registrando url para requisições de recursos */
-$router->group(['prefix' => 'token'], function () use ($router) {
+Route::group(['prefix' => 'token'], function () use ($router) {
     $router->get('/', 'TokenController@get');
     $router->get('register', 'TokenController@register');
     $router->post('/', 'TokenController@post');
 });
 
 /** Registrando url para requisições de solictações */
-$router->group(['prefix' => 'unity'], function () use ($router) {
+Route::group(['prefix' => 'unity'], function () use ($router) {
     $router->get('/', 'UnityController@get');
     $router->post('/', 'UnityController@insert');   
 });
 
 /** Carregar Empresas */
-$router->group(['prefix' => 'business'], function () use ($router) {
+Route::group(['prefix' => 'business'], function () use ($router) {
     $router->get('/', 'BusinessController@get');
 });
