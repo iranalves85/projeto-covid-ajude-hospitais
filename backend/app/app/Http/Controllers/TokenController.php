@@ -19,7 +19,7 @@ class TokenController extends Controller
         $cookie = $this->createCookie($token);      
 
         //Retorna resposta
-        return response(['success' => ['token' => $token ]])->cookie($cookie);
+        return response(['success' => ['token' => $token ]])->withCookie($cookie);
     }
 
     function get(Request $request) {
@@ -47,13 +47,14 @@ class TokenController extends Controller
         $cookie = $this->createCookie($token);      
 
         //Retorna resposta
-        return response(['success' => ['token' => $token ]])->cookie($cookie);
+        return response(['success' => ['token' => $token ]])->withCookie($cookie);
 
     }
 
+    /** Criar cookie */
     private function createCookie(string $token) {
         //Setando cookie na sessão
-        return new Cookie(env('COOKIE_NAME'), $token, 0, '/', env('COOKIE_DOMAIN'), env('COOKIE_SECURE'), true);    
+        return Cookie::create(env('COOKIE_NAME'), $token, 0, '/', env('COOKIE_DOMAIN'), env('COOKIE_SECURE'), true);    
     }
 
 }
