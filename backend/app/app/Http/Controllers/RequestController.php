@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Request as RequestModel;
+use App\Unity as UnityModel;
 use App\Resources as ResourcesModel;
 use App\Business as BusinessModel;
 use App\Support as SupportModel;
@@ -106,16 +107,29 @@ class RequestController extends Controller
         //Dados não preenchidos
         if (!$request->has('solicitacao') || !$request->filled('solicitacao') ) return false;
 
-        $data = $request->input('solicitacao');
-
-        //Dados não preenchidos
-        if (!key_exists('unidade', $data) || empty($data['unidade'])) return false;
-
         //Retorna dados do token solicitado
         $token = $request->cookie(env('COOKIE_NAME'));
 
         //Se não existir token registrado para a sessão
         if (is_null($token)) return ['error' => ['request' => 'Para abrir uma solicitação é necessário uma sessão ativa. Registre uma nova sessão com "Registrar nova sessão"!']];
+
+        //Verificar se token existe e já foi usado em solicitação anterior
+        if ($token && $exist = RequestModel::where("token", "=", $token)->get()) return ['error' => ['request' => 'Só é permitido a utilização de um token por solicitação. Se necessário gere uma nova sessão!']];
+
+        $data = $request->input('solicitacao');
+
+        //Dados não preenchidos, adicionar nova instituição
+        if (!key_exists('unidade', $data) || empty($data['unidade'])) {
+            $data['unidade'] = UnityModel::insertGetId([
+                'name'          => (string) $data['name'], 
+                'address'       => (string) $data['address'],
+                'number'        => (int) $data['number'],
+                'neighborhood'  => (string) $data['neighborhood'],
+                'city'          => (string) $data['city'],
+                'state'         => (string) $data['state'],
+                'cep'           => (int) $data['cep']
+            ]); 
+        }
 
         //Inserindo dados no banco
         $request_insert_id = RequestModel::insertGetId([
