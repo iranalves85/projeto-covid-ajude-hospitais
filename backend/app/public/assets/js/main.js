@@ -44949,6 +44949,7 @@ var app = new Vue({
               $title = 'Solicitação aberta!';
               $message = response.data.success.request;
               $variant = 'success';
+              this.paged = 1;
               this.carregarSolicitacao();
             }
 
@@ -45128,7 +45129,7 @@ var app = new Vue({
     }
   },
   mounted: function () {
-    this.carregarToken() 
+    this.carregarToken()  
     this.carregarSolicitacao()
     this.carregarBairros()
     this.carregarUnidades()
