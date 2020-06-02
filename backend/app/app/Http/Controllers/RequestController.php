@@ -107,16 +107,20 @@ class RequestController extends Controller
         //Dados não preenchidos
         if (!$request->has('solicitacao') || !$request->filled('solicitacao') ) return false;
 
+        //Carrega parametros enviados
+        $data = $request->input('solicitacao'); 
+
         //Retorna dados do token solicitado
         $token = $request->cookie(env('COOKIE_NAME'));
 
         //Se não existir token registrado para a sessão
         if (is_null($token)) return ['error' => ['request' => 'Para abrir uma solicitação é necessário uma sessão ativa. Registre uma nova sessão com "Registrar nova sessão"!']];
 
-        //Verificar se token existe e já foi usado em solicitação anterior
-        if ($token && $exist = RequestModel::where("token", "=", $token)->get()) return ['error' => ['request' => 'Só é permitido a utilização de um token por solicitação. Se necessário gere uma nova sessão!']];
-
-        $data = $request->input('solicitacao');
+        //Pesquisa no banco se já existe token usado em solicitação
+        $exist = RequestModel::where("token", "=", $token)->first();
+        
+        //Se nulo, continua processo
+        if (!is_null($exist)) return ['error' => ['request' => 'Só é permitido a utilização de um token por solicitação. Se necessário gere uma nova sessão!']];
 
         //Dados não preenchidos, adicionar nova instituição
         if (!key_exists('unidade', $data) || empty($data['unidade'])) {
