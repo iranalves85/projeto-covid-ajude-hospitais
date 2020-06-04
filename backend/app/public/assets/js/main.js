@@ -44949,7 +44949,8 @@ var app = new Vue({
               $title = 'Solicitação aberta!';
               $message = response.data.success.request;
               $variant = 'success';
-              this.paged = 1;
+              this.paged = '1';
+              this.items = [];
               this.carregarSolicitacao();
             }
 
@@ -45006,7 +45007,8 @@ var app = new Vue({
               $title = 'Sua ajuda foi enviada!';
               $message = response.data.success.resource;
               $variant = 'success';
-              this.paged = 1;
+              this.paged = '1';
+              this.items = [];
               this.carregarSolicitacao();
             }
 
