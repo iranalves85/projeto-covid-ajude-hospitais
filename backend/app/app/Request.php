@@ -8,6 +8,6 @@ class Request extends Model
 {
     protected $table = 'requests';
     protected $primaryKey = 'ID';
-    public $timestamps = true;
+    protected $fillable = ['unity_id', 'token'];
 
 }

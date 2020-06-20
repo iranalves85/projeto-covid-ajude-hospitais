@@ -8,5 +8,5 @@ class Resources extends Model
 {
     protected $table = 'resources';
     protected $primaryKey = 'ID';
-    public $timestamps = true;
+    protected $fillable = ['name', 'request_id'];
 }

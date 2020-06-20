@@ -14,26 +14,27 @@ class RequestController extends Controller
 {
     function get(Request $request, $paged = 0, $bairro = null) {
 
-        //Retorna dados do token solicitado
-        $token = $request->cookie(env('COOKIE_NAME'));
-
         //Query inicial
         $query = DB::table('requests AS req')
                     ->join('unity as u', 'req.unity_id', '=', 'u.ID')
-                    ->select("req.ID", "req.unity_id", "u.address", "u.cep", "u.city", "u.name", "u.neighborhood", "u.number", "u.state", DB::raw("(select group_concat(R.ID, '-', R.name separator ',' ) from resources R where R.request_id = req.ID group by R.request_id order by count(R.request_id)) as items"))
-                    ->orderByDesc('req.ID')
-                    ->offset(($paged > 1)? $paged * 20 : 0)
-                    ->take(20);
+                    ->select("req.ID", "req.updated_at", "req.unity_id", "u.address", "u.cep", "u.city", "u.name", "u.neighborhood", "u.number", "u.state", DB::raw("(select group_concat(R.ID, '-', R.name separator ',' ) from resources R where R.request_id = req.ID group by R.request_id order by count(R.request_id)) as items"))
+                    ->orderByDesc('req.updated_at')
+                    ->offset(($paged > 1)? ($paged - 1) * 10 : 0)
+                    ->take(10);
 
         //Se houve envio de solicitação de filtrar solicitações
-        if(!is_null($bairro))
+        if (!is_null($bairro))
         {
-            //Todo: Não filtrando corretamente por bairro
             $query->where("u.neighborhood", "=", $bairro);
         }
         
         //Realiza a query
         $solicitacoes = $query->get();
+
+        //Retorna dados do token solicitado
+        if ($token = $request->cookie(env('COOKIE_NAME'))) {
+            $request_token = RequestModel::where("token", "=", $token)->first();
+        }
 
         //Se existir dados a interar
         if ($solicitacoes->count() > 0) {
@@ -96,6 +97,11 @@ class RequestController extends Controller
                     $solicitacoes[$key]->items[] = $items; 
 
                 }
+
+                //Adicionando atributo que permite edição da solicitação
+                if (isset($request_token) && $request_token->getAttribute('ID') == $value->ID) {
+                    $solicitacoes[$key]->can_edit = true;
+                }
             }
         } 
 
@@ -124,7 +130,7 @@ class RequestController extends Controller
 
         //Dados não preenchidos, adicionar nova instituição
         if (!key_exists('unidade', $data) || empty($data['unidade'])) {
-            $data['unidade'] = UnityModel::insertGetId([
+            $unity_model = UnityModel::create([
                 'name'          => (string) $data['name'], 
                 'address'       => (string) $data['address'],
                 'number'        => (int) $data['number'],
@@ -133,20 +139,23 @@ class RequestController extends Controller
                 'state'         => (string) $data['state'],
                 'cep'           => (int) $data['cep']
             ]); 
+
+            $data['unidade'] = $unity_model->getAttribute('ID');
         }
 
-        //Inserindo dados no banco
-        $request_insert_id = RequestModel::insertGetId([
+        //Insere modelo no banco registrando timestamps
+        $request_model = RequestModel::create([
             'unity_id'  => (int) $data['unidade'], 
             'token'     => (string) $token
-        ]); 
+        ]);
 
         //Se inserção foi feita corretamente
-        if (is_int($request_insert_id) && $request_insert_id > 0) {
+        if (($request_insert_id = $request_model->getAttribute('ID')) > 0) {
+
             //Adicionando items
             foreach ($data['items'] as $key => $value) {
                 //Inserindo dados no banco
-                $resource_insert_id = ResourcesModel::insertGetId([
+                $resource_model = ResourcesModel::create([
                     'name'          => filter_var($value, FILTER_SANITIZE_STRING), 
                     'request_id'    => (int) $request_insert_id
                 ]);
@@ -159,6 +168,22 @@ class RequestController extends Controller
             //Retorna mensagem de erro
             return response()->json(['error' => ['request' => 'Não foi possível registrar sua solicitação.']]);
         }
+
+    }
+
+    function delete(Request $request, $requestID) {
+
+        //Retorna dados do token solicitado
+        $token = $request->cookie(env('COOKIE_NAME'));
+
+        //Se não existir token registrado para a sessão
+        if (is_null($token)) return ['error' => ['request' => 'Para deletar a solicitação é necessário uma sessão ativa.']];
+
+        //Retorna a requisição pelo ID
+        $request_model = RequestModel::where("ID", "=", $requestID)->first();
+        
+        //Se nulo, continua processo
+        return ($request_model->delete())? ['success' => ['request' => 'Solicitação excluída!']] : ['error' => ['request' => 'Erro ao excluir solicitação!']];
 
     }
 

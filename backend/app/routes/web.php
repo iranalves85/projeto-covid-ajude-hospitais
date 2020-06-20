@@ -21,7 +21,8 @@ Route::get('/', function () {
 Route::group(['prefix' => 'request'], function () use ($router) {
     $router->get('/{bairro?}/{page?}', 'RequestController@get');
     $router->post('/', 'RequestController@post');
-    $router->post('/help', 'RequestController@registerHelp');
+    $router->delete('/{requestID}', 'RequestController@delete');
+    $router->post('help', 'RequestController@registerHelp');
     $router->post('token', 'RequestController@registerToken');   
 });
 

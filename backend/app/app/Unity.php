@@ -8,5 +8,5 @@ class Unity extends Model
 {
     protected $table = 'unity';
     protected $primaryKey = 'ID';
-    public $timestamps = true;
+    protected $fillable = ['name', 'address', 'number', 'neighborhood', 'city', 'state', 'cep'];
 }

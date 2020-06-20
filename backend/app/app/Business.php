@@ -8,5 +8,5 @@ class Business extends Model
 {
     protected $table = 'business';
     protected $primaryKey = 'ID';
-    public $timestamps = true;
+    protected $fillable = ['name', 'logo', 'site', 'email'];
 }

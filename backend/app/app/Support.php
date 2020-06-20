@@ -8,5 +8,5 @@ class Support extends Model
 {
     protected $table = 'support';
     protected $primaryKey = 'ID';
-    public $timestamps = true;
+    protected $fillable = ['business_id', 'resource_id'];
 }
